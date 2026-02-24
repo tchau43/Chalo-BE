@@ -1,0 +1,99 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==================User==================
+model User {
+  id                  String          @id @default(uuid())
+  name                String
+  phoneNumber         String?         @unique
+  role                Role            @default(CUSTOMER)
+  email               String          @unique
+  password            String
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  orders              Order[]         
+}
+
+enum Role {
+  MODERATOR
+  ADMIN
+  CUSTOMER
+}
+
+// ==================Store==================
+model Category {
+  id                  String          @id @default(uuid())
+  name                String
+  imageUrl            String[]
+  description         String?
+  products            Product[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+model Product {
+  id                  String          @id @default(uuid())
+  name                String 
+  description         String?
+  price               Float
+  imageUrl            String[]
+  prepareTime         Int?        
+  isAvailable         Boolean         @default(true)
+  categoryId          String
+  category            Category        @relation(fields: [categoryId], references: [id])            
+  orderItems          OrderItem[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+model Table {
+  id                  String          @id @default(uuid())
+  name                String          @unique
+  qrToken             String          @unique
+  orders              Order[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+model Order {
+  id                  String          @id @default(uuid())
+  totalAmount         Float
+  status              OrderStatus     @default(PENDING)
+  tableId             String
+  table               Table           @relation(fields: [tableId], references: [id])
+  isPaid              Boolean         @default(false)
+  waitingTime         Int
+  customerId          String?
+  customer            User?           @relation(fields: [customerId], references: [id])
+  items               OrderItem[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  isTakeaway          Boolean         @default(false)
+  note                String?
+}
+
+model OrderItem {
+  id                  String          @id @default(uuid())
+  quantity            Int             @default(1)
+  price               Float
+  orderId             String
+  order               Order           @relation(fields: [orderId], references: [id])
+  productId           String
+  product             Product         @relation(fields: [productId], references: [id])
+  note                String?
+  readyAt             DateTime?       // thời điểm món này hoàn thành / sẵn sàng
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
