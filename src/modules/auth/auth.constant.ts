@@ -1,0 +1,1 @@
+export const IS_PUBLIC_KEY = "Is_Public_Key"
