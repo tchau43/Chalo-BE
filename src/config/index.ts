@@ -1,8 +1,17 @@
-import { AppConfig } from './app.config'
+import { AppConfig, appConfigKey, IAppConfig } from './app.config'
+import { DatabaseConfig, databaseConfigKey, IDatabaseConfig } from './database.config'
 
 export * from './app.config'
 export * from './database.config'
 
 export default {
-  AppConfig
+  AppConfig,
+  DatabaseConfig
 }
+
+interface AllConfigType {
+  [appConfigKey]: IAppConfig,
+  [databaseConfigKey]: IDatabaseConfig
+}
+
+export type ConfigKeyPaths = RecordNamePaths<AllConfigType>

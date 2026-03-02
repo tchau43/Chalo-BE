@@ -1,7 +1,7 @@
 import { ConfigType, registerAs } from "@nestjs/config";
 import { envNumber, envString } from "src/global/env";
 
-const appConfigKey = "app"
+export const appConfigKey = "app"
 
 const globalPrefix = envString('GLOBAL_PREFIX', 'api')
 

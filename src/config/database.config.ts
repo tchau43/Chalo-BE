@@ -20,7 +20,7 @@ const dataSourceOptions: DataSourceOptions = {
   },
 }
 
-const databaseConfigKey = "database"
+export const databaseConfigKey = "database"
 
 export const DatabaseConfig = registerAs(databaseConfigKey, () => dataSourceOptions)
 
