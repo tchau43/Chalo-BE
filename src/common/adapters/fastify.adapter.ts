@@ -5,6 +5,8 @@ import { FastifyAdapter } from "@nestjs/platform-fastify";
 
 const app: FastifyAdapter = new FastifyAdapter ()
 
+export {app as fastifyApp}
+
 // Multipart plugin for file uploads (multipart/form-data)
 app.register(fastifyMultipart, {
   limits: {
