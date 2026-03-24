@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: chalo_coffee_db
+    restart: always
+    environment:
+      POSTGRES_USER: chauip43          
+      POSTGRES_PASSWORD: 2802    
+      POSTGRES_DB: chalo_coffee_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
